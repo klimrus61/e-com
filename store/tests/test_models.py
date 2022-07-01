@@ -1,7 +1,7 @@
-from unicodedata import category, name
-from django.test import TestCase
-from store.models import Category, Product
 from django.contrib.auth.models import User
+from django.test import TestCase
+
+from store.models import Category, Product
 
 
 class TestCategoriesModel(TestCase):
@@ -15,22 +15,16 @@ class TestCategoriesModel(TestCase):
         '''
         data = self.data1
         self.assertTrue(isinstance(data, Category))
-
-    def test_category_model_entry(self):
-        '''
-        Test Category model default name
-        '''
-        data = self.data1
         self.assertEqual(str(data), 'django')
 
-    
+
 class TestProductModel(TestCase):
     def setUp(self):
         Category.objects.create(name='django', slug='django')
         User.objects.create(username='klim')
         self.data1 = Product.objects.create(category_id=1, title='django beginners', created_by_id=1,
                                             slug='django-beginners', price='500.00', image='django')
-        
+
     def test_products_model_entry(self):
         '''
         Test Product model data insertion/types/field attributes
