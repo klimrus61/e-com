@@ -87,3 +87,4 @@ local_settings.py
 
 .env
 db.sqlite3
+store/tests/__pycache__/test_views.cpython-310.pyc
