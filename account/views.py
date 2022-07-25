@@ -1,5 +1,5 @@
 from django.contrib.auth import login, logout
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView
 from django.contrib.auth.decorators import login_required
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
@@ -11,7 +11,7 @@ from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 # from orders.views import user_orders
 
-from .forms import RegistrationForm, UserLoginForm, UserEditForm
+from .forms import RegistrationForm, UserLoginForm, UserEditForm, PwdResetForm, PwdResetConfirmForm
 from .models import UserBase
 from .tokens import account_activation_token
 
@@ -22,6 +22,17 @@ class AccountLogin(LoginView):
 
 class AccountLogout(LogoutView):
     next_page = '/account/login'
+
+class AccountPasswordReset(PasswordResetView):
+    template_name = "account/user/password_reset_from.html"
+    success_url = 'password_reset_email_confirm'
+    email_template_name = 'account/user/password_reset_email.html'
+    form_class = PwdResetForm
+
+class AccountPasswordConfirm(PasswordResetConfirmView):
+    template_name = 'account/user/password_reset_confirm.html'
+    success_url = '/account/password_reset_complete/'
+    form_class = PwdResetConfirmForm
 
 @login_required
 def dashboard(request):
