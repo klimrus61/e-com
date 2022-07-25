@@ -85,6 +85,7 @@ target/
 __pycache__/
 local_settings.py
 
+.venv
 .env
 db.sqlite3
 store/tests/__pycache__/test_views.cpython-310.pyc
