@@ -37,6 +37,16 @@ var custAdd2 = document.getElementById("custAdd2").value;
 var postCode = document.getElementById("postCode").value;
 
 
+  $.ajax({
+    type: "POST",
+    url: 'http://127.0.0.1:8000/orders/add/',
+    data: {
+      order_key: clientsecret,
+      csrfmiddlewaretoken: CSRF_TOKEN,
+      action: "post",
+    },
+    success: function (json) {
+      console.log(json.success)
 
       stripe.confirmCardPayment(clientsecret, {
         payment_method: {
@@ -65,6 +75,9 @@ var postCode = document.getElementById("postCode").value;
         }
       });
 
+    },
+    error: function (xhr, errmsg, err) {},
+  });
 
 
 
