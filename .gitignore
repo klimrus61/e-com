@@ -87,7 +87,7 @@ local_settings.py
 
 
 db.sqlite3
-store/tests/__pycache__/test_views.cpython-310.pyc
+store/tests/__pycache__/
 
 ####
 # Environments
@@ -96,3 +96,7 @@ store/tests/__pycache__/test_views.cpython-310.pyc
 venv/
 .venv
 .env
+store/__pycache__/
+core/__pycache__/
+payment/migrations/
+store/migrations/
