@@ -16,16 +16,16 @@ urlpatterns = [
         views.AccountPasswordConfirm.as_view(), name='password_reset_confirm'
         ),
     path('password_reset/password_reset_email_confirm/',
-        TemplateView.as_view(template_name="account/user/reset_status.html"), name='password_reset_done'
+        TemplateView.as_view(template_name="account/password_reset/reset_status.html"), name='password_reset_done'
         ),
     path('password_reset_complete/',
-        TemplateView.as_view(template_name="account/user/reset_status.html"), name="password_reset_complete"
+        TemplateView.as_view(template_name="account/password_reset/reset_status.html"), name="password_reset_complete"
         ),
     # User dashboard
     path('dashboard/', views.dashboard, name='dashboard'),
     path('profile/edit/', views.edit_details, name='edit_details'),
     path('profile/delete_user/', views.delete_user, name='delete_user'),
     path('profile/delete_confirm/',
-        TemplateView.as_view(template_name="account/user/delete_confirm.html"), name='delete_confirmation'
+        TemplateView.as_view(template_name="account/dashboard/delete_confirm.html"), name='delete_confirmation'
         ),
 ]

@@ -17,27 +17,27 @@ from .tokens import account_activation_token
 
 
 class AccountLogin(LoginView):
-    template_name = 'account/registration/login.html'
+    template_name = 'account/login.html'
     form_class = UserLoginForm
 
 class AccountLogout(LogoutView):
     next_page = '/account/login'
 
 class AccountPasswordReset(PasswordResetView):
-    template_name = "account/user/password_reset_from.html"
+    template_name = "account/password_reset/password_reset_from.html"
     success_url = 'password_reset_email_confirm'
-    email_template_name = 'account/user/password_reset_email.html'
+    email_template_name = 'account/password_reset/password_reset_email.html'
     form_class = PwdResetForm
 
 class AccountPasswordConfirm(PasswordResetConfirmView):
-    template_name = 'account/user/password_reset_confirm.html'
+    template_name = 'account/password_reset/password_reset_confirm.html'
     success_url = '/account/password_reset_complete/'
     form_class = PwdResetConfirmForm
 
 @login_required
 def dashboard(request):
     orders = user_orders(request)
-    return render(request, 'account/user/dashboard.html', {'orders': orders})
+    return render(request, 'account/dashboard/dashboard.html', {'orders': orders})
 
 @login_required
 def edit_details(request):
@@ -49,7 +49,7 @@ def edit_details(request):
     else:
         user_form = UserEditForm(instance=request.user)
 
-    return render(request, 'account/user/edit_details.html', {'user_form': user_form})
+    return render(request, 'account/dashboard/edit_details.html', {'user_form': user_form})
 
 @login_required
 def delete_user(request):
@@ -81,7 +81,7 @@ def account_register(request):
                 'token': account_activation_token.make_token(user),
             })
             user.email_user(subject=subject, message=message)
-            return HttpResponse('registered succesfully and activation sent')
+            return render(request, 'account/registration/register_email_confirm.html', {'form': registerForm})
     else:
         registerForm = RegistrationForm()
     return render(request, 'account/registration/register.html', {'form': registerForm})
