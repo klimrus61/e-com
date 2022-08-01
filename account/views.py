@@ -9,7 +9,7 @@ from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 
 
-# from orders.views import user_orders
+from orders.views import user_orders
 
 from .forms import RegistrationForm, UserLoginForm, UserEditForm, PwdResetForm, PwdResetConfirmForm
 from .models import UserBase
@@ -36,9 +36,8 @@ class AccountPasswordConfirm(PasswordResetConfirmView):
 
 @login_required
 def dashboard(request):
-    # orders = user_orders(request)
-    return render(request,
-                    'account/user/dashboard.html',)
+    orders = user_orders(request)
+    return render(request, 'account/user/dashboard.html', {'orders': orders})
 
 @login_required
 def edit_details(request):

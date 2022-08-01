@@ -85,7 +85,21 @@ target/
 __pycache__/
 local_settings.py
 
+
+db.sqlite3
+store/tests/__pycache__/
+
+####
+# Environments
+####
+.venv/
+venv/
 .venv
 .env
-db.sqlite3
+store/__pycache__/
+core/__pycache__/
+payment/migrations/
+store/migrations/
+store/tests/
+store/tests/__pycache__/test_models.cpython-310.pyc
 store/tests/__pycache__/test_views.cpython-310.pyc
