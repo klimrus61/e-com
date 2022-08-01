@@ -100,3 +100,6 @@ store/__pycache__/
 core/__pycache__/
 payment/migrations/
 store/migrations/
+store/tests/
+store/tests/__pycache__/test_models.cpython-310.pyc
+store/tests/__pycache__/test_views.cpython-310.pyc
