@@ -1,4 +1,4 @@
-#!/home/klim/prog/e-com/venv/bin/python3
+#!/home/klim/prog/e-com/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
