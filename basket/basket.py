@@ -1,9 +1,11 @@
-from django.conf import settings
-from store.models import Product
 from decimal import Decimal
 
+from checkout.models import DeliveryOptions
+from django.conf import settings
+from store.models import Product
 
-class Basket():
+
+class Basket:
     """
     A base Basket class, providing some default behaviors that
     can be inherited or overrided, as necessary.
@@ -23,9 +25,9 @@ class Basket():
         product_id = str(product.id)
 
         if product_id in self.basket:
-            self.basket[product_id]['qty'] = qty
+            self.basket[product_id]["qty"] = qty
         else:
-            self.basket[product_id] = {'price': str(product.regular_price), 'qty': int(qty)}
+            self.basket[product_id] = {"price": str(product.regular_price), "qty": int(qty)}
 
         self.save()
 
@@ -39,18 +41,18 @@ class Basket():
         basket = self.basket.copy()
 
         for product in products:
-            basket[str(product.id)]['product'] = product
+            basket[str(product.id)]["product"] = product
 
         for item in basket.values():
-            item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['qty']
+            item["price"] = Decimal(item["price"])
+            item["total_price"] = item["price"] * item["qty"]
             yield item
 
     def __len__(self):
         """
         Get the basket data and count the qty of items
         """
-        return sum(item['qty'] for item in self.basket.values())
+        return sum(item["qty"] for item in self.basket.values())
 
     def delete(self, product):
         """
@@ -66,30 +68,41 @@ class Basket():
         Update values in session data
         """
         product_id = str(product)
-        
+
         if product_id in self.basket:
-            self.basket[product_id]['qty'] = qty
+            self.basket[product_id]["qty"] = qty
             self.save()
 
     def save(self):
         self.session.modified = True
 
     def get_subtotal_price(self):
-        return sum(Decimal(item['price']) * item['qty'] for item in self.basket.values())
+        return sum(Decimal(item["price"]) * item["qty"] for item in self.basket.values())
 
     def get_total_price(self):
-
+        delivery_price = 0.00
         subtotal = self.get_subtotal_price()
 
-        if subtotal == 0:
-            shipping = Decimal(0.00)
-        else:
-            shipping = Decimal(11.50)
-
-        total = subtotal + Decimal(shipping)
+        if "purchase" in self.session:
+            delivery_price = DeliveryOptions.objects.get(id=self.session["purchase"]["delivery_id"]).delivery_price
+        total = subtotal + Decimal(delivery_price)
         return total
+
+    def basket_update_delivery(self, deliveryprice=0):
+
+        subtotal = self.get_subtotal_price()
+        total = subtotal + Decimal(deliveryprice)
+        return total
+
+    def get_delivery_price(self):
+        delivery_price = 0.00
+        if "purchase" in self.session:
+            delivery_price = DeliveryOptions.objects.get(id=self.session["purchase"]["delivery_id"]).delivery_price
+        return delivery_price
 
     def clear(self):
         # Remove basket from session
         del self.session[settings.BASKET_SESSION_ID]
+        del self.session["address"]
+        del self.session["purchase"]
         self.save()

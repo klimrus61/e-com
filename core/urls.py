@@ -11,6 +11,7 @@ urlpatterns = [
     path("account/", include("account.urls", namespace="account")),
     path("orders/", include("orders.urls", namespace="orders")),
     path("__debug__/", include(debug_toolbar.urls)),
+    path("checkout/", include("checkout.urls", namespace="checkout")),
 ]
 
 if settings.DEBUG:
