@@ -12,7 +12,3 @@ Django-ecommerce is an open-source ecommerce platform built on the Django Web Fr
 - Responsive, mobile-friendly design
 - Payments Using Paypal (Not work)
 
-
-
-## Where to find Me
-Or visit My [Website](https://github.com/klimrus61)
